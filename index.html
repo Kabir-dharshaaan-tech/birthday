@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Happy Birthday, Karnika 💖</title>
     <title>Your Garden, just click to plant flowers</title>
     <style>
@@ -19,6 +21,9 @@
             overflow: hidden;
             cursor: none;
             user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
         
         .garden-container {
@@ -440,6 +445,7 @@
         @media (max-width: 768px) {
             body {
                 cursor: auto;
+                -webkit-overflow-scrolling: touch;
             }
             
             .custom-cursor {
@@ -463,6 +469,15 @@
             .bee {
                 font-size: clamp(14px, 4vw, 18px);
             }
+            
+            .floating-heart {
+                font-size: clamp(16px, 5vw, 20px);
+            }
+            
+            .particle {
+                width: clamp(2px, 1vw, 3px);
+                height: clamp(2px, 1vw, 3px);
+            }
         }
         
         @media (max-width: 480px) {
@@ -471,6 +486,7 @@
                 left: clamp(8px, 1.5vw, 15px);
                 font-size: clamp(0.6rem, 1.5vw, 0.8rem);
                 padding: clamp(8px, 1.5vw, 12px);
+                border-radius: clamp(10px, 2vw, 15px);
             }
             
             .day-night-toggle {
@@ -479,17 +495,23 @@
                 font-size: clamp(1rem, 3.5vw, 1.3rem);
                 min-width: clamp(36px, 7vw, 44px);
                 min-height: clamp(36px, 7vw, 44px);
+                border-radius: 50%;
+                -webkit-appearance: none;
+                appearance: none;
             }
             
             .instruction {
                 bottom: 15px;
                 font-size: clamp(0.75rem, 2.5vw, 0.95rem);
                 padding: clamp(6px, 1.5vw, 12px) clamp(10px, 2.5vw, 16px);
+                border-radius: clamp(20px, 4vw, 25px);
+                max-width: 95%;
             }
             
             .title {
                 top: 10px;
                 font-size: clamp(1.3rem, 4.5vw, 2rem);
+                padding: 0 clamp(5px, 1vw, 10px);
             }
             
             .love-message {
@@ -497,6 +519,26 @@
                 padding: clamp(8px, 1.5vw, 12px) clamp(10px, 2vw, 18px);
                 max-width: 85vw;
                 border-width: 2px;
+                border-radius: clamp(20px, 4vw, 25px);
+                line-height: 1.4;
+            }
+            
+            .grass {
+                height: clamp(40px, 8vh, 60px);
+            }
+            
+            .flower-stem {
+                width: clamp(3px, 1vw, 4px);
+            }
+            
+            .petal {
+                width: clamp(12px, 4vw, 16px);
+                height: clamp(18px, 6vw, 24px);
+            }
+            
+            .flower-center {
+                width: clamp(6px, 2vw, 8px);
+                height: clamp(6px, 2vw, 8px);
             }
         }
         
@@ -504,12 +546,127 @@
             .title {
                 top: 8px;
                 font-size: clamp(1.1rem, 4vw, 1.6rem);
+                line-height: 1.2;
+            }
+            
+            .instruction {
+                bottom: 10px;
+                font-size: clamp(0.7rem, 2vw, 0.85rem);
+            }
+            
+            .garden-stats {
+                font-size: clamp(0.55rem, 1.2vw, 0.75rem);
+            }
+        }
+        
+        /* Landscape orientation adjustments */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .title {
+                top: 5px;
+                font-size: clamp(1rem, 3vh, 1.5rem);
+            }
+            
+            .instruction {
+                bottom: 8px;
+                font-size: clamp(0.65rem, 2vh, 0.8rem);
+            }
+            
+            .garden-stats {
+                top: 5px;
+                left: 5px;
+                font-size: clamp(0.5rem, 1vh, 0.7rem);
+                padding: clamp(5px, 1vh, 8px);
+            }
+            
+            .day-night-toggle {
+                top: 5px;
+                right: 5px;
+                font-size: clamp(0.8rem, 2.5vh, 1rem);
+                min-width: clamp(30px, 5vh, 36px);
+                min-height: clamp(30px, 5vh, 36px);
+            }
+            
+            .grass {
+                height: clamp(30px, 6vh, 40px);
+            }
+        }
+        
+        /* High DPI displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .star, .particle, .dewdrop {
+                transform: scale(0.8);
+            }
+        }
+        
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .day-night-toggle:hover {
+                transform: none;
+            }
+            
+            .day-night-toggle:active {
+                transform: scale(0.95);
+                transition: transform 0.1s ease;
+            }
+            
+            .flower-petals:hover {
+                cursor: pointer;
+            }
+        }
+        
+        /* Safe area for devices with notches */
+        @supports (padding: max(0px)) {
+            .garden-container {
+                padding-top: max(0px, env(safe-area-inset-top));
+                padding-bottom: max(0px, env(safe-area-inset-bottom));
+                padding-left: max(0px, env(safe-area-inset-left));
+                padding-right: max(0px, env(safe-area-inset-right));
             }
         }
     </style>
 </head>
 <body>
     <div class="garden-container" id="garden">
+        <!-- Loading Screen -->
+        <div id="loading-screen" style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #87CEEB 0%, #98FB98 30%, #90EE90 70%, #228B22 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        ">
+            <div style="
+                font-family: 'Dancing Script', cursive;
+                font-size: clamp(2rem, 8vw, 3rem);
+                color: #FF1493;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+                margin-bottom: 20px;
+                text-align: center;
+            ">🌸 Growing Your Garden... 🌸</div>
+            <div style="
+                width: clamp(200px, 60vw, 300px);
+                height: 4px;
+                background: rgba(255,255,255,0.3);
+                border-radius: 2px;
+                overflow: hidden;
+            ">
+                <div id="loading-bar" style="
+                    height: 100%;
+                    background: linear-gradient(90deg, #FF69B4, #FFB6C1);
+                    width: 0%;
+                    transition: width 2s ease;
+                    border-radius: 2px;
+                "></div>
+            </div>
+        </div>
+        
         <div class="grass"></div>
         <div class="stars" id="stars"></div>
         <div class="sun" id="sun"></div>
@@ -520,7 +677,7 @@
         
         <div class="garden-stats" id="stats">
             <div>🌸 Flowers: <span id="flowerCount">0</span></div>
-            <div>💝 Love Messages: <span id="messageCount">0</span></div>
+            <div>💝 birthday messages: <span id="messageCount">0</span></div>
             <div>🦋 Garden Level: <span id="gardenLevel">Seedling</span></div>
         </div>
         
@@ -581,10 +738,37 @@
         
         // Initialize garden
         document.addEventListener('DOMContentLoaded', function() {
-            createStars();
-            createClouds();
-            startButterflyAnimation();
-            startBeeAnimation();
+            // Show loading screen
+            const loadingScreen = document.getElementById('loading-screen');
+            const loadingBar = document.getElementById('loading-bar');
+            
+            // Simulate loading progress
+            let progress = 0;
+            const loadingInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(loadingInterval);
+                    
+                    // Hide loading screen
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                        }, 500);
+                    }, 500);
+                }
+                loadingBar.style.width = progress + '%';
+            }, 100);
+            
+            // Initialize garden components
+            setTimeout(() => {
+                createStars();
+                createClouds();
+                startButterflyAnimation();
+                startBeeAnimation();
+                setupMobileOptimizations();
+            }, 500);
             
             // Check if device supports touch
             const isTouchDevice = () => {
@@ -608,22 +792,121 @@
             
             // Main click handler for planting flowers (supports both mouse and touch)
             document.addEventListener('click', (e) => {
-                if (e.target.id !== 'dayNightToggle') {
+                if (e.target.id !== 'dayNightToggle' && progress >= 100) {
                     plantFlower(e.clientX, e.clientY);
                 }
             });
             
             // Touch handler for mobile devices
             document.addEventListener('touchstart', (e) => {
-                if (e.target.id !== 'dayNightToggle') {
+                if (e.target.id !== 'dayNightToggle' && progress >= 100) {
+                    e.preventDefault(); // Prevent double-tap zoom
                     const touch = e.touches[0];
                     plantFlower(touch.clientX, touch.clientY);
                 }
-            }, { passive: true });
+            }, { passive: false });
+            
+            // Prevent zoom on double-tap
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', (e) => {
+                const now = Date.now();
+                if (now - lastTouchEnd <= 300) {
+                    e.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
             
             // Day/night toggle
             document.getElementById('dayNightToggle').addEventListener('click', toggleDayNight);
+            document.getElementById('dayNightToggle').addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                toggleDayNight();
+            }, { passive: false });
         });
+        
+        function setupMobileOptimizations() {
+            // Handle orientation changes
+            window.addEventListener('orientationchange', () => {
+                // Small delay to ensure dimensions are updated
+                setTimeout(() => {
+                    adjustLayoutForOrientation();
+                    clearExcessElements();
+                }, 100);
+            });
+            
+            // Handle resize events
+            window.addEventListener('resize', () => {
+                clearExcessElements();
+            });
+            
+            // Performance optimization: Reduce animations on low-end devices
+            const isLowEndDevice = () => {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if (!gl) return true;
+                
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                if (!debugInfo) return false;
+                
+                const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                return renderer.includes('SwiftShader') || renderer.includes('Software');
+            };
+            
+            if (isLowEndDevice()) {
+                // Reduce particle effects on low-end devices
+                reduceAnimations();
+            }
+            
+            // Prevent context menu on mobile
+            document.addEventListener('contextmenu', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                }
+            });
+        }
+        
+        function adjustLayoutForOrientation() {
+            const isLandscape = window.innerHeight < window.innerWidth;
+            const garden = document.getElementById('garden');
+            
+            if (isLandscape && window.innerHeight < 500) {
+                garden.style.fontSize = '0.9em';
+            } else {
+                garden.style.fontSize = '';
+            }
+        }
+        
+        function clearExcessElements() {
+            // Remove elements that are off-screen to improve performance
+            const flowers = document.querySelectorAll('.flower');
+            const maxFlowers = window.innerWidth < 768 ? 30 : 50;
+            
+            if (flowers.length > maxFlowers) {
+                for (let i = 0; i < flowers.length - maxFlowers; i++) {
+                    if (flowers[i].parentNode) {
+                        flowers[i].parentNode.removeChild(flowers[i]);
+                    }
+                }
+                flowerCount = Math.min(flowerCount, maxFlowers);
+                updateStats();
+            }
+        }
+        
+        function reduceAnimations() {
+            // Reduce animation complexity on low-end devices
+            const style = document.createElement('style');
+            style.textContent = `
+                @media (max-width: 768px) {
+                    .butterfly, .bee, .firefly {
+                        animation-duration: 2s !important;
+                    }
+                    .floating-heart, .particle {
+                        animation-duration: 1s !important;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
         
         function createStars() {
             const starsContainer = document.getElementById('stars');
@@ -685,13 +968,18 @@
             }
             
             // Calculate variable stem height ensuring flower stays within screen bounds
-            const maxStemHeight = window.innerHeight * 0.65 - 60; // Leave room for petals
-            const minHeight = 30;
+            const maxStemHeight = Math.min(window.innerHeight * 0.65 - 60, 200); // Cap max height for mobile
+            const minHeight = window.innerWidth < 480 ? 20 : 30; // Shorter stems on mobile
             const stemHeight = Math.random() * (maxStemHeight - minHeight) + minHeight;
             
             const flower = document.createElement('div');
             flower.className = 'flower';
-            flower.style.left = (x - 15) + 'px';
+            
+            // Ensure flower doesn't go off-screen horizontally
+            const flowerWidth = window.innerWidth < 480 ? 30 : 40;
+            x = Math.max(flowerWidth/2, Math.min(x, window.innerWidth - flowerWidth/2));
+            
+            flower.style.left = (x - flowerWidth/2) + 'px';
             flower.style.bottom = '60px';
             
             const flowerType = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
@@ -714,9 +1002,9 @@
             petalsContainer.style.left = '50%';
             petalsContainer.style.transform = 'translateX(-50%)';
             
-            // Variable petal sizes (±20%)
-            const basePetalWidth = 16;
-            const basePetalHeight = 24;
+            // Variable petal sizes (±20%) - smaller on mobile
+            const basePetalWidth = window.innerWidth < 480 ? 12 : 16;
+            const basePetalHeight = window.innerWidth < 480 ? 18 : 24;
             const sizeVariation = 0.8 + Math.random() * 0.4; // 0.8 to 1.2 (±20%)
             const petalWidth = basePetalWidth * sizeVariation;
             const petalHeight = basePetalHeight * sizeVariation;
@@ -737,13 +1025,13 @@
             // Create center (scaled with flower size)
             const center = document.createElement('div');
             center.className = 'flower-center';
-            const centerSize = 8 * sizeVariation;
-            center.style.width = center.style.height = centerSize + 'px';
-            center.style.top = (16 - centerSize/2) + 'px';
-            center.style.left = (16 - centerSize/2) + 'px';
+            const centerSize = window.innerWidth < 480 ? 6 : 8;
+            center.style.width = center.style.height = (centerSize * sizeVariation) + 'px';
+            center.style.top = (basePetalHeight - centerSize * sizeVariation/2) + 'px';
+            center.style.left = (basePetalWidth - centerSize * sizeVariation/2) + 'px';
             
-            // Add dewdrop (30% chance)
-            if (Math.random() > 0.7 && !isNightMode) {
+            // Add dewdrop (30% chance) - less frequent on mobile for performance
+            if (Math.random() > (window.innerWidth < 480 ? 0.8 : 0.7) && !isNightMode) {
                 const dewdrop = document.createElement('div');
                 dewdrop.className = 'dewdrop';
                 petalsContainer.appendChild(dewdrop);
@@ -758,7 +1046,28 @@
                 e.stopPropagation();
                 createFloatingHearts(x, y - stemHeight);
                 createParticles(x, y - stemHeight + 20);
+                
+                // Add haptic feedback if available
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
             });
+            
+            // Touch feedback for mobile
+            flower.addEventListener('touchstart', (e) => {
+                e.stopPropagation();
+                flower.style.transform = 'scale(1.1)';
+                if (navigator.vibrate) {
+                    navigator.vibrate(30);
+                }
+            }, { passive: true });
+            
+            flower.addEventListener('touchend', (e) => {
+                e.stopPropagation();
+                flower.style.transform = '';
+                createFloatingHearts(x, y - stemHeight);
+                createParticles(x, y - stemHeight + 20);
+            }, { passive: true });
             
             document.getElementById('garden').appendChild(flower);
             
@@ -768,8 +1077,9 @@
             // Update stats
             updateStats();
             
-            // Add some sparkle particles
-            setTimeout(() => createParticles(x, y - 20), 500);
+            // Add some sparkle particles - fewer on mobile
+            const particleCount = window.innerWidth < 480 ? 4 : 8;
+            setTimeout(() => createParticles(x, y - 20, particleCount), 500);
         }
         
         function showLoveMessage(x, y) {
@@ -829,8 +1139,8 @@
             }
         }
         
-        function createParticles(x, y) {
-            for (let i = 0; i < 8; i++) {
+        function createParticles(x, y, count = 8) {
+            for (let i = 0; i < count; i++) {
                 setTimeout(() => {
                     const particle = document.createElement('div');
                     particle.className = 'particle';
