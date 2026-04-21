@@ -307,16 +307,18 @@
         
         .title {
             position: absolute;
-            top: 30px;
+            top: 15px;
             left: 50%;
             transform: translateX(-50%);
             font-family: 'Dancing Script', cursive;
-            font-size: 2.5rem;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
             font-weight: 700;
             color: #FF1493;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             z-index: 10;
             animation: title-glow 2s ease-in-out infinite alternate;
+            padding: 0 10px;
+            text-align: center;
         }
         
         @keyframes title-glow {
@@ -326,18 +328,19 @@
         
         .instruction {
             position: absolute;
-            bottom: 30px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             color: #FF1493;
-            font-size: 1.1rem;
+            font-size: clamp(0.8rem, 3vw, 1.1rem);
             text-align: center;
             background: rgba(255, 255, 255, 0.8);
-            padding: 10px 20px;
+            padding: clamp(8px, 2vw, 15px) clamp(12px, 3vw, 20px);
             border-radius: 25px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             animation: pulse 2s ease-in-out infinite;
             z-index: 10;
+            max-width: 90%;
         }
         
         @keyframes pulse {
@@ -368,29 +371,32 @@
         
         .garden-stats {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: clamp(10px, 2vw, 20px);
+            left: clamp(10px, 2vw, 20px);
             background: rgba(255, 255, 255, 0.9);
-            padding: 15px;
+            padding: clamp(10px, 2vw, 15px);
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             z-index: 10;
-            font-size: 0.9rem;
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
         }
         
         .day-night-toggle {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: clamp(10px, 2vw, 20px);
+            right: clamp(10px, 2vw, 20px);
             background: rgba(255, 255, 255, 0.9);
             border: none;
-            padding: 10px;
+            padding: clamp(8px, 2vw, 10px);
             border-radius: 50%;
             cursor: pointer;
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             z-index: 10;
             transition: all 0.3s ease;
+            min-width: clamp(40px, 8vw, 50px);
+            min-height: clamp(40px, 8vw, 50px);
+            touch-action: manipulation;
         }
         
         .day-night-toggle:hover {
@@ -428,6 +434,77 @@
                 #228B22 4px
             );
             opacity: 0.7;
+        }
+        
+        /* Mobile and Tablet Responsive Styles */
+        @media (max-width: 768px) {
+            body {
+                cursor: auto;
+            }
+            
+            .custom-cursor {
+                display: none;
+            }
+            
+            .moon {
+                width: clamp(50px, 12vw, 80px);
+                height: clamp(50px, 12vw, 80px);
+            }
+            
+            .sun {
+                width: clamp(40px, 10vw, 60px);
+                height: clamp(40px, 10vw, 60px);
+            }
+            
+            .butterfly {
+                font-size: clamp(18px, 6vw, 24px);
+            }
+            
+            .bee {
+                font-size: clamp(14px, 4vw, 18px);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .garden-stats {
+                top: clamp(8px, 1.5vw, 15px);
+                left: clamp(8px, 1.5vw, 15px);
+                font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+                padding: clamp(8px, 1.5vw, 12px);
+            }
+            
+            .day-night-toggle {
+                top: clamp(8px, 1.5vw, 15px);
+                right: clamp(8px, 1.5vw, 15px);
+                font-size: clamp(1rem, 3.5vw, 1.3rem);
+                min-width: clamp(36px, 7vw, 44px);
+                min-height: clamp(36px, 7vw, 44px);
+            }
+            
+            .instruction {
+                bottom: 15px;
+                font-size: clamp(0.75rem, 2.5vw, 0.95rem);
+                padding: clamp(6px, 1.5vw, 12px) clamp(10px, 2.5vw, 16px);
+            }
+            
+            .title {
+                top: 10px;
+                font-size: clamp(1.3rem, 4.5vw, 2rem);
+            }
+            
+            .love-message {
+                font-size: clamp(14px, 3.5vw, 18px);
+                padding: clamp(8px, 1.5vw, 12px) clamp(10px, 2vw, 18px);
+                max-width: 85vw;
+                border-width: 2px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .title {
+                top: 8px;
+                font-size: clamp(1.1rem, 4vw, 1.6rem);
+            }
         }
     </style>
 </head>
@@ -509,19 +586,40 @@
             startButterflyAnimation();
             startBeeAnimation();
             
-            // Custom cursor
-            const cursor = document.getElementById('cursor');
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.left = (e.clientX - 10) + 'px';
-                cursor.style.top = (e.clientY - 10) + 'px';
-            });
+            // Check if device supports touch
+            const isTouchDevice = () => {
+                return (('ontouchstart' in window) ||
+                        (navigator.maxTouchPoints > 0) ||
+                        (navigator.msMaxTouchPoints > 0));
+            };
             
-            // Main click handler for planting flowers
+            const isTouch = isTouchDevice();
+            
+            // Custom cursor (desktop only)
+            if (!isTouch) {
+                const cursor = document.getElementById('cursor');
+                document.addEventListener('mousemove', (e) => {
+                    cursor.style.left = (e.clientX - 10) + 'px';
+                    cursor.style.top = (e.clientY - 10) + 'px';
+                });
+            } else {
+                document.getElementById('cursor').style.display = 'none';
+            }
+            
+            // Main click handler for planting flowers (supports both mouse and touch)
             document.addEventListener('click', (e) => {
                 if (e.target.id !== 'dayNightToggle') {
                     plantFlower(e.clientX, e.clientY);
                 }
             });
+            
+            // Touch handler for mobile devices
+            document.addEventListener('touchstart', (e) => {
+                if (e.target.id !== 'dayNightToggle') {
+                    const touch = e.touches[0];
+                    plantFlower(touch.clientX, touch.clientY);
+                }
+            }, { passive: true });
             
             // Day/night toggle
             document.getElementById('dayNightToggle').addEventListener('click', toggleDayNight);
